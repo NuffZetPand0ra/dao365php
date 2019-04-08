@@ -1,0 +1,24 @@
+{
+    "name": "nuffy/dao365",
+    "description": "PHP SDK for DAO365 API.",
+    "type": "api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NuffZetPand0ra",
+            "email": "esbentind@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "vlucas/phpdotenv": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "nuffy\\dao365\\": "src/"
+        }
+    }
+}
