@@ -63,6 +63,11 @@ class Dao
         return new response\TrackingStatusCodes($this->callApi("TrackNTraceKoder"));
     }
 
+    public function getTrackingStatus(int $barcode) : response\TrackingStatus
+    {
+        
+    }
+
     public function getErrorCodes() : response\ErrorCodes
     {
         $response = $this->callApi("FejlKoder");
