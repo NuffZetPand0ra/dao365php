@@ -22,6 +22,14 @@ final class DaoTest extends DaoTestCase
         $this->assertInstanceOf(\nuffy\dao365\response\DirectOrderLabel::class, $response, "Cannot create new shop order label.");
     }
 
+    public function testCanConvertAliasLetters()
+    {
+        $receiver = new \nuffy\dao365\Receiver("Stine Rohde", "Møllegården 191", "6933", 28922322, "esben@inkpro.dk");
+        $order = new \nuffy\dao365\request\CreateDirectOrder($receiver, (new \DateTime("tomorrow"))->modify("+1 day"), "100", [6,10,1], 87654321, null, false, true);
+        $response = self::$client->request($order);
+        $this->assertInstanceOf(\nuffy\dao365\response\DirectOrderLabel::class, $response, "Cannot convert å to aa in DAO api.");
+    }
+
     public function testCanSearchForShops()
     {
         $request = new \nuffy\dao365\request\FindShops(2610, "Islevdalvej 148");
