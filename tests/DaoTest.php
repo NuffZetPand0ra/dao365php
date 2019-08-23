@@ -5,7 +5,8 @@ final class DaoTest extends DaoTestCase
 {    
     public function testCanCreateDirectOrder()
     {
-        $receiver = new \nuffy\dao365\Receiver("Esben Tind", "Islevdalvej 148", "2610", 28922322, "esben@inkpro.dk");
+        // $receiver = new \nuffy\dao365\Receiver("Esben Tind", "Islevdalvej 148", "2610", 28922322, "esben@inkpro.dk");
+        $receiver = new \nuffy\dao365\Receiver("Esben Tind", "Nonnedalen 10", "4100", 28922322, "esben@inkpro.dk");
         $order = new \nuffy\dao365\request\CreateDirectOrder($receiver, (new \DateTime("tomorrow"))->modify("+1 day"), "100", [6,10,1], 87654321, null, false, true);
         $response = self::$client->request($order);
         $this->assertInstanceOf(\nuffy\dao365\response\DirectOrderLabel::class, $response, "Cannot create new direct order label.");
@@ -24,7 +25,7 @@ final class DaoTest extends DaoTestCase
 
     public function testCanConvertAliasLetters()
     {
-        $receiver = new \nuffy\dao365\Receiver("Stine Rohde", "Møllegården 191", "6933", 28922322, "esben@inkpro.dk");
+        $receiver = new \nuffy\dao365\Receiver("Stine Rohde", "Moellegården 191", "6933", 28922322, "esben@inkpro.dk");
         $order = new \nuffy\dao365\request\CreateDirectOrder($receiver, (new \DateTime("tomorrow"))->modify("+1 day"), "100", [6,10,1], 87654321, null, false, true);
         $response = self::$client->request($order);
         $this->assertInstanceOf(\nuffy\dao365\response\DirectOrderLabel::class, $response, "Cannot convert å to aa in DAO api.");
@@ -62,7 +63,8 @@ final class DaoTest extends DaoTestCase
 
     public function testCanTrackNTracePackage()
     {
-        $this->assertTrue(true);
+        $response = self::$client->getTrackingStatus(new \nuffy\dao365\request\TrackOrder("00057126960541461900"));
+        $this->assertInstanceOf(\nuffy\dao365\response\TrackingStatus::class, $response);
     }
 
 }

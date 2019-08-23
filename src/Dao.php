@@ -53,6 +53,9 @@ class Dao
             case $prefix."FindShops":
                 return $this->findShops($request);
                 break;
+            case $prefix."TrackOrder":
+                return $this->getTrackingStatus($request);
+                break;
             default:
                 throw new DaoException("Requests of type ".get_class($request)." is currently not supported.");
         }
@@ -63,9 +66,11 @@ class Dao
         return new response\TrackingStatusCodes($this->callApi("TrackNTraceKoder"));
     }
 
-    public function getTrackingStatus(int $barcode) : response\TrackingStatus
+    public function getTrackingStatus(request\TrackOrder $track) : response\TrackingStatus
     {
-        
+        $response = $this->callApi("TrackNTrace_v1", $track->getQueryData());
+        $return = new response\TrackingStatus($response);
+        return $return;
     }
 
     public function getErrorCodes() : response\ErrorCodes
@@ -101,5 +106,11 @@ class Dao
         $response = $this->callApi("DAOPakkeshop/FindPakkeshop", ["shopid"=>$shop_id]);
         $result = new response\ShopSearchResult($response);
         return $result;
+    }
+
+    public function cancelOrder(string $barcode) : bool
+    {
+        $response = $this->callApi("AnnullerePakke", ["stregkode"=>$barcode]);
+        return true;
     }
 }
